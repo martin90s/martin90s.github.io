@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="技术," />
 
 
 
@@ -84,12 +84,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Martin">
-<meta property="og:url" content="https://martin90s.github.io/index.html">
+<meta name="description" content="最近在公司做的工作都是插件化相关，所以看了很多插件化的框架。整个插件化的方案现在是比较成熟的，怎样处理ClassLoader，怎么替换Activity生命周期，怎么去处理Receiver和Service，几个主流的框架基本上都是大同小异。我们团队选用了AndroidPluginFramework这个框架，具体的BenchMark其实在很多框架下面都可以看到。如何选取还是取决于自身需求，在插件化这块">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android插件混淆解决方法以及MultiDex的配置">
+<meta property="og:url" content="https://martin90s.github.io/2016/12/30/Android插件混淆解决方法以及MultiDex的配置/index.html">
 <meta property="og:site_name" content="Martin">
+<meta property="og:description" content="最近在公司做的工作都是插件化相关，所以看了很多插件化的框架。整个插件化的方案现在是比较成熟的，怎样处理ClassLoader，怎么替换Activity生命周期，怎么去处理Receiver和Service，几个主流的框架基本上都是大同小异。我们团队选用了AndroidPluginFramework这个框架，具体的BenchMark其实在很多框架下面都可以看到。如何选取还是取决于自身需求，在插件化这块">
+<meta property="og:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2016/12/30/87ab50fd20095026dd24f384f78e7602.png">
+<meta property="og:updated_time" content="2016-12-30T14:21:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Martin">
+<meta name="twitter:title" content="Android插件混淆解决方法以及MultiDex的配置">
+<meta name="twitter:description" content="最近在公司做的工作都是插件化相关，所以看了很多插件化的框架。整个插件化的方案现在是比较成熟的，怎样处理ClassLoader，怎么替换Activity生命周期，怎么去处理Receiver和Service，几个主流的框架基本上都是大同小异。我们团队选用了AndroidPluginFramework这个框架，具体的BenchMark其实在很多框架下面都可以看到。如何选取还是取决于自身需求，在插件化这块">
+<meta name="twitter:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2016/12/30/87ab50fd20095026dd24f384f78e7602.png">
 
 
 
@@ -117,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://martin90s.github.io/"/>
+  <link rel="canonical" href="https://martin90s.github.io/2016/12/30/Android插件混淆解决方法以及MultiDex的配置/"/>
 
 
 
 
 
-  <title> Martin </title>
+  <title> Android插件混淆解决方法以及MultiDex的配置 | Martin </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -144,9 +150,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -227,9 +231,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -262,10 +266,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/12/30/Android插件混淆解决方法以及MultiDex的配置/" itemprop="url">
-                  Android插件混淆解决方法以及MultiDex的配置
-                </a>
+                Android插件混淆解决方法以及MultiDex的配置
               
             
           </h1>
@@ -316,9 +317,7 @@
       
 
       
-        
-          
-            <pre><code>最近在公司做的工作都是插件化相关，所以看了很多插件化的框架。整个插件化的方案现在是比较成熟的，怎样处理ClassLoader，怎么替换Activity生命周期，怎么去处理Receiver和Service，几个主流的框架基本上都是大同小异。我们团队选用了AndroidPluginFramework这个框架，具体的BenchMark其实在很多框架下面都可以看到。如何选取还是取决于自身需求，在插件化这块其实主流的需求一般是两种：
+        <pre><code>最近在公司做的工作都是插件化相关，所以看了很多插件化的框架。整个插件化的方案现在是比较成熟的，怎样处理ClassLoader，怎么替换Activity生命周期，怎么去处理Receiver和Service，几个主流的框架基本上都是大同小异。我们团队选用了AndroidPluginFramework这个框架，具体的BenchMark其实在很多框架下面都可以看到。如何选取还是取决于自身需求，在插件化这块其实主流的需求一般是两种：
 </code></pre><ol>
 <li>完全独立的插件。就是给一个APK和宿主没有关系，宿主可以不安装的情况下调起这个APK，让用户无感知。</li>
 <li>非独立插件。这个其实是大部分公司的需求，就是随着公司业务的发展，客户端承载的业务越来越多，这个时候无论是从团队合作的角度还是动态化的角度，都希望各个业务之间解耦，发布能更加独立和动态。这种模式下，一般会抽出一个公共库，给各个组件提供基本功能，比如手淘还未开源的Atlas的结构。<br>借用一张架构图，公共库抽象出中间件那个模块，提供给各个组件基本的能力<br><img src="http://7xpb9x.com1.z0.glb.clouddn.com/2016/12/30/87ab50fd20095026dd24f384f78e7602.png" alt="atlas.png" title="atlas.png"></li>
@@ -347,162 +346,62 @@
 <p>在Android配置中添加这段即可，当然gradle1.5之后开始提供更多的第三方接口，所以也可以尝试使用<br><a href="https://github.com/ceabie/DexKnifePlugin" target="_blank" rel="external">https://github.com/ceabie/DexKnifePlugin</a> 这个分包插件来完成。<br>配置上以上混淆配置和multidex后，再打包插件，会发现成功混淆，分包也正确,混淆规则和宿主一致。</p>
 <p>以上就是整个插件打包和混淆的过程，由于刚接触插件化不久，如果有更合理的混淆方案，请告知一下，搞这块还是挺蛋疼的，记录一下！</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://martin90s.github.io/2016/09/11/不知不觉工作三年/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="martin90s">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://7xpb9x.com1.z0.glb.clouddn.com/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Martin">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Martin" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/11/不知不觉工作三年/" itemprop="url">
-                  不知不觉工作三年
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-11T22:19:13+08:00">
-                2016-09-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/技术/" rel="tag"># 技术</a>
           
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <hr>
-<p>说实话，自己高中毕业后就不太爱写怎么记录东西了。高中的时候爱看点叛逆的东西，也仿照着写过一些，那时候感觉自己文笔还可以，大学学了计算机，从此就远离文字了。今天也是临时起意吧，突然想记录点啥。这两天确实也是闲的慌，工作以来第一次gap那么长的时间，到今天差不多半个月了，但愿自己下周能终结掉这闲的发慌的日子。</p>
-<p>-<br>想想自己13年毕业到现在，不知不觉工作了三年了，依然从事着自己不那么喜欢的编码工作。上一份工作结束的时候，看到有同事发“干一行，爱一行”，想想自己，貌似是越干越不爱这行。一直恍恍惚惚的，收入倒是比毕业的时候翻了一倍多了。有时候想，不喜欢也许是给自己找的一个借口，给自己在这行干不出啥名堂找的借口。到时候过两年人家看着你咋混在这行混了这么久也没混成技术大神啊？我就可以心安理得的说：我不喜欢这行啊！混在这行纯冲着钱啊！哈哈，聊以安慰自己吧。有时候审视自己啊，真的是太看重别人对你的看法了，或许就是我妈骂了我爸一辈子的死要面子。</p>
-<p>离职完后跟同事有时坐在一块瞎聊，tim说“你们不觉得无聊吗？我都已经写这玩意写了5年了。这下难道又要换个地儿接着写这破玩意？”哈哈！不知道他们当时怎么想，我心里是突然觉得知己啊。其实我自己感受一样，写代码这事儿，有点像是自high吧。写的东西大部分人是看不懂的，只看最后出来的东西，有时候写了个很好的东西，就三四个组里的人在那儿互相high。换个姿势，管理层可能更把这东西当做是个工具吧，老板们心里有自己的商业想法，花钱买来些写代码的工具，产出一些软件，好的管理者可能心底里尊敬技术，但这活确实是一个很奇怪的事儿。你说跟流水线的工人有区别吗？但确实码农和工人收入又不在一个级别上。你说没区别吗？但确实又都是在流水线上拧螺丝的。真是悲观的想法。当然很多有想法的码农最后都自己去实现自己的商业理想了，去闯了。但比例上确实是少数。可能这是我对这个职业最悲观的一点吧。大部分这行的人学历不错，受过高等教育，他们读书，学习，跳出底层，最后发现自己成了跟上一代的纺织女工一样，不同的是经济上确实让很多人跳出了底层。</p>
-<p>说点生活的吧！最近很开心的两件事，一件是前俩月回了趟泸州。算了算，自己可能4，5年没在夏天回过泸州了。好熟悉的空气啊！啤酒，夜宵，长江边，好友，美女！哈哈！高中的开心日子感觉一下就回来了。活了20几年，最开心的可能就是高中三年了。夏天，白天拼命的考试学习，晚上翻墙出去干锅啤酒。除了没钱，真的一切都挺好。这次回去几个哥们从外地赶回来，半夜喝到一两点，聊到3点。真的可能好几年没跟人这么说说心里话了。烟抽了一包，啥都聊，好快乐！虽然大家都在不同的人生道路上，但共同的回忆太多了，成长环境也很相似，所以很多时候彼此能懂。说实话，大学四年，确实每个人差异太大了，大学之前可能自己都不知道大城市的孩子是性格。相处很难，交心更难！自己没事儿还是喜欢看看老家的新闻，自己确实太念旧了。大城市装逼装太久，总想放下面具回去闹闹！路边烧烤摊，长江边上的茶馆，ktv，川菜，早上的面条，晚上的火锅和山城啤酒，这才是我吧！无比惬意，无比放松的真实的我！另一件开心的事儿，就是自己和豪仔去青海自驾了5天吧，还认识了俩杭州小姑娘和一个台湾大叔。风景很美，总算见识了一下大西北。自驾在广阔的草原上，觉得自由真好！自己能赚钱出来玩真好！</p>
-<p>对了，今天看了个贾玲的小品《你好，李焕英》。这可能是我看过最好的小品了，手法 情感 表演都非常棒！可能最触动自己的还是经历吧，子欲养而亲不在，这事儿可能真的自己经历过才知道有多遗憾有多疼吧！记得之前跟老家的哥们聊天，他总问我为啥非得耗在北京啊，成都不也挺好的吗？回来呗！我笑着说，自己穷怕了吧。有时候觉得每个人的成长经历真的很独特，自己也是。回看这独特的成长经历真的是会塑造一个人，影响着自己一辈子的选择和性格。有时候想，自己的家庭如果是个普通的农村家庭或者普通的小镇家庭不也挺好吗？自己怎么会来自于这么奇怪的一个家庭。可能每一个留守儿童都会觉得自己的家庭奇怪吧，确实在自己成长的阶段，父母是缺位的。文字最大的好处是能记录当下的自己的心情和想法，因为过两天这些情感和想法就都藏起来了，只有又被什么东西触动的时候，你才会感觉到“哦！原来我心里有这些东西”。</p>
-<p>扯回来吧！对于工作这事儿，一线城市最大的好处就是永远让你觉得你自己在努力奋斗，即使是你自己永远在你当前的视野范围内愚昧的努力着，这种感觉会让你自己觉得自己的生命没有浪费，自己很向上。短期看来，确实自己也只能这样，你跳不出自己的视野，就这样努力着，社会也总会给你些回报，你也会觉得自己越来越好。可能这就是让我有点悲观的地方吧！很多人担心自己10年过后仍然一事无成，但能跳到更高视野的人少之又少，平庸总是大多数。很多时候的忙碌确实是对自己内心的安慰，但愿接下来这周能解决自己的工作，换个地方接着平庸的忙碌着。时不时的幻想一下有一天能跳出这个诡异的圆圈，更大的可能还是一辈子平庸吧！</p>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/11/不知不觉工作三年/" rel="next" title="不知不觉工作三年">
+                <i class="fa fa-chevron-left"></i> 不知不觉工作三年
+              </a>
+            
+          </div>
 
-          
-        
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -510,6 +409,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -529,8 +432,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://7xpb9x.com1.z0.glb.clouddn.com/avatar.jpg"
@@ -579,6 +491,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#接下来就得去折腾multidex了"><span class="nav-number">1.</span> <span class="nav-text">接下来就得去折腾multidex了</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -677,6 +605,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
