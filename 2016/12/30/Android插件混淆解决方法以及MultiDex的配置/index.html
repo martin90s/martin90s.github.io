@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Martin">
 <meta property="og:description" content="最近在公司做的工作都是插件化相关，所以看了很多插件化的框架。整个插件化的方案现在是比较成熟的，怎样处理ClassLoader，怎么替换Activity生命周期，怎么去处理Receiver和Service，几个主流的框架基本上都是大同小异。我们团队选用了AndroidPluginFramework这个框架，具体的BenchMark其实在很多框架下面都可以看到。如何选取还是取决于自身需求，在插件化这块">
 <meta property="og:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2016/12/30/87ab50fd20095026dd24f384f78e7602.png">
-<meta property="og:updated_time" content="2016-12-30T14:21:59.000Z">
+<meta property="og:updated_time" content="2016-12-30T14:29:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android插件混淆解决方法以及MultiDex的配置">
 <meta name="twitter:description" content="最近在公司做的工作都是插件化相关，所以看了很多插件化的框架。整个插件化的方案现在是比较成熟的，怎样处理ClassLoader，怎么替换Activity生命周期，怎么去处理Receiver和Service，几个主流的框架基本上都是大同小异。我们团队选用了AndroidPluginFramework这个框架，具体的BenchMark其实在很多框架下面都可以看到。如何选取还是取决于自身需求，在插件化这块">
@@ -317,8 +317,8 @@
       
 
       
-        <pre><code>最近在公司做的工作都是插件化相关，所以看了很多插件化的框架。整个插件化的方案现在是比较成熟的，怎样处理ClassLoader，怎么替换Activity生命周期，怎么去处理Receiver和Service，几个主流的框架基本上都是大同小异。我们团队选用了AndroidPluginFramework这个框架，具体的BenchMark其实在很多框架下面都可以看到。如何选取还是取决于自身需求，在插件化这块其实主流的需求一般是两种：
-</code></pre><ol>
+        <p>最近在公司做的工作都是插件化相关，所以看了很多插件化的框架。整个插件化的方案现在是比较成熟的，怎样处理ClassLoader，怎么替换Activity生命周期，怎么去处理Receiver和Service，几个主流的框架基本上都是大同小异。我们团队选用了AndroidPluginFramework这个框架，具体的BenchMark其实在很多框架下面都可以看到。如何选取还是取决于自身需求，在插件化这块其实主流的需求一般是两种:</p>
+<ol>
 <li>完全独立的插件。就是给一个APK和宿主没有关系，宿主可以不安装的情况下调起这个APK，让用户无感知。</li>
 <li>非独立插件。这个其实是大部分公司的需求，就是随着公司业务的发展，客户端承载的业务越来越多，这个时候无论是从团队合作的角度还是动态化的角度，都希望各个业务之间解耦，发布能更加独立和动态。这种模式下，一般会抽出一个公共库，给各个组件提供基本功能，比如手淘还未开源的Atlas的结构。<br>借用一张架构图，公共库抽象出中间件那个模块，提供给各个组件基本的能力<br><img src="http://7xpb9x.com1.z0.glb.clouddn.com/2016/12/30/87ab50fd20095026dd24f384f78e7602.png" alt="atlas.png" title="atlas.png"></li>
 </ol>
