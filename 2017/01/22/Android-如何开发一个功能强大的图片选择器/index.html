@@ -100,12 +100,9 @@ https://github.com/martin90s/ImagePicker
 
 首先基本的图片读取显示，以及图片更新监控
 超大图片预览，比如一张19M，10000*5000px的图">
-<meta property="og:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/ebc4f72590c2835a347f6cb542379b8a.gif">
-<meta property="og:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/d749a6d0c89a7c10e6105d017bb9d914.gif">
-<meta property="og:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/6f5ec08c22cbaa331d7cc21bd1b6159a.gif">
 <meta property="og:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/d9ebe62c2adb8b6dc2a0871ba5253911.jpeg?imageView/2/w/300/q/100">
 <meta property="og:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/753086bdb373b27b8438512a806cccbc.jpg?imageView/2/w/100/q/100">
-<meta property="og:updated_time" content="2017-01-22T10:02:47.000Z">
+<meta property="og:updated_time" content="2017-01-23T13:37:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android-如何开发一个功能强大的图片选择器">
 <meta name="twitter:description" content="图片选择器是Android开发中会经常用到的一个功能，特别对于社交类的应用，比如头像设置，比如发图片。自然ImagePicker的轮子很多，今天介绍一个功能强大的轮子SImagePicker
@@ -114,7 +111,7 @@ https://github.com/martin90s/ImagePicker
 
 首先基本的图片读取显示，以及图片更新监控
 超大图片预览，比如一张19M，10000*5000px的图">
-<meta name="twitter:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/ebc4f72590c2835a347f6cb542379b8a.gif">
+<meta name="twitter:image" content="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/d9ebe62c2adb8b6dc2a0871ba5253911.jpeg?imageView/2/w/300/q/100">
 
 
 
@@ -345,7 +342,7 @@ https://github.com/martin90s/ImagePicker
 <li>图片的裁剪功能</li>
 <li>丰富的可配置项，支持拍照选取，选取张数定义，支持选择的图片过滤，<br>支持多种图片加载器（Fresco，Glide等）</li>
 </ul>
-<p>废话不说，先看效果<br>第一张头像模式，第二张选择多张图片（包括动画和顺畅的跳转），第三张是分片加载超大图（19.5M，10000*5000px）<br><img src="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/ebc4f72590c2835a347f6cb542379b8a.gif" alt="头像模式，支持裁剪" title="test3.gif"><img src="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/d749a6d0c89a7c10e6105d017bb9d914.gif" alt="多选图片，流畅的页面跳转" title="test4.gif"><img src="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/6f5ec08c22cbaa331d7cc21bd1b6159a.gif" alt="超大图预览，可以看到渐变加载" title="test5.gif"></p>
+<p>废话不说，先看效果<br>第一张头像模式，第二张选择多张图片（包括动画和顺畅的跳转），第三张是分片加载超大图（19.5M，10000*5000px）<br><a href="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/ebc4f72590c2835a347f6cb542379b8a.gif" target="_blank" rel="external">http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/ebc4f72590c2835a347f6cb542379b8a.gif</a><br><a href="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/d749a6d0c89a7c10e6105d017bb9d914.gif" target="_blank" rel="external">http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/d749a6d0c89a7c10e6105d017bb9d914.gif</a><br><a href="http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/6f5ec08c22cbaa331d7cc21bd1b6159a.gif" target="_blank" rel="external">http://7xpb9x.com1.z0.glb.clouddn.com/2017/01/20/6f5ec08c22cbaa331d7cc21bd1b6159a.gif</a></p>
 <h1 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h1><h4 id="1-首先初始化（推荐在Application的oncreate中调用）"><a href="#1-首先初始化（推荐在Application的oncreate中调用）" class="headerlink" title="1.首先初始化（推荐在Application的oncreate中调用）"></a>1.首先初始化（推荐在Application的oncreate中调用）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">SImagePicker.init(<span class="keyword">new</span> PickerConfig.Builder().setAppContext(<span class="keyword">this</span>)</div><div class="line">			.setImageLoader(<span class="keyword">new</span> FrescoImageLoader())</div><div class="line">		.setToolbaseColor(getColor(R.color.colorPrimary))</div><div class="line">		.build());</div></pre></td></tr></table></figure>
 <h4 id="2-在需要选择图片的地方调用"><a href="#2-在需要选择图片的地方调用" class="headerlink" title="2.在需要选择图片的地方调用"></a>2.在需要选择图片的地方调用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SImagePicker</div><div class="line">           .from(MainActivity.<span class="keyword">this</span>)</div><div class="line">           .maxCount(<span class="number">9</span>)</div><div class="line">           .rowCount(<span class="number">3</span>)</div><div class="line">           .pickMode(SImagePicker.MODE_IMAGE)</div><div class="line">           .fileInterceptor(<span class="keyword">new</span> SingleFileLimitInterceptor())</div><div class="line">           .forResult(REQUEST_CODE_IMAGE);</div></pre></td></tr></table></figure>
 <h3 id="可配置项"><a href="#可配置项" class="headerlink" title="可配置项"></a>可配置项</h3><h4 id="1-全局配置（即初始化时传入的PickerConfig-此配置作用于SImagePicker整个使用过程）"><a href="#1-全局配置（即初始化时传入的PickerConfig-此配置作用于SImagePicker整个使用过程）" class="headerlink" title="1.全局配置（即初始化时传入的PickerConfig,此配置作用于SImagePicker整个使用过程）"></a>1.全局配置（即初始化时传入的PickerConfig,此配置作用于SImagePicker整个使用过程）</h4><table>
